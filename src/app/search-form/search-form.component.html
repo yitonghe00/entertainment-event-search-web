@@ -1,0 +1,102 @@
+<div class="jumbotron text-center">
+  <h3 class="h5">Entertainment Event Ticket Search</h3>
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-group row">
+      <div class="col-sm-2"></div>
+      <label for="keyword" class="col-sm-2 col-form-label text-left">Keyword</label>
+      <div class="col-sm-6">
+
+        <input matInput [formControl]="keyword" [matAutocomplete]="auto" type="text" class="form-control" [ngClass]="{'is-invalid': !keyword.valid && keyword.touched}"
+          id="keyword" placeholder="Enter Artist, Team or Event Name (eg. Lakers)">
+
+        <div *ngIf="!keyword.valid && keyword.touched" class="invalid-feedback text-left">
+          Please enter a keyword.
+        </div>
+
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let item of searchResult" [value]="item.name">{{ item.name }}
+          </mat-option>
+        </mat-autocomplete>
+
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-2"></div>
+      <label for="catagory" class="col-sm-2 col-form-label text-left">Catagory</label>
+      <div class="col-sm-3">
+        <select [formControl]="catagory" class="form-control" id="catagory">
+          <option value="all">All</option>
+          <option value="music">Music</option>
+          <option value="sports">Sports</option>
+          <option value="arts">Arts & Theatre</option>
+          <option value="film">Film</option>
+          <option value="miscellaneous">Miscellaneous</option>
+        </select>
+      </div>
+      <div class="col-sm-5"></div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-2"></div>
+      <label for="keyword" class="col-sm-2 col-form-label text-left">Distance</label>
+      <div class="col-sm-3">
+        <input [formControl]="distance" type="number" class="form-control" id="distance" placeholder="10">
+      </div>
+      <div class="col-sm-3">
+        <select [formControl]="unit" class="form-control">
+          <option value="miles">Miles</option>
+          <option value="kilometers">Kilometers</option>
+        </select>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+
+    <fieldset class="form-group">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <legend class="col-form-label col-sm-2 pt-0 text-left">From</legend>
+        <div class="col-sm-6 text-left">
+
+          <div class="form-check">
+            <input class="form-check-input" type="radio" [formControl]="from" id="current" value="current">
+            <label class="form-check-label" for="current">
+              Current location
+            </label>
+          </div>
+
+          <div class="form-check">
+            <input class="form-check-input" type="radio" [formControl]="from" id="other" value="other">
+            <label class="form-check-label" for="other">
+              Other, Please specify:
+            </label>
+          </div>
+
+          <div class="col-sm-12">
+            <input [formControl]="location" [ngClass]="{'is-invalid': from.value === 'other' && !location.valid && location.touched}"
+              type="text" class="form-control" [disableControl]="from.value === 'current'">
+            <div *ngIf="from.value === 'other' && !location.valid && location.touched" class="invalid-feedback text-left">
+              Please enter a location.
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+    </fieldset>
+
+    <div class="form-group row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-10 text-left">
+        <button type="submit" class="btn btn-primary mr-2 btn-sm" [disabled]="!gotLocation || !keyword.valid || (from.value === 'other' && !location.valid)">
+          <i class="material-icons mx-auto">search</i><span class="text-center">Search</span>
+        </button>
+        <button type="button" id="clear-button" class="btn btn-light btn-sm">
+          <i class="material-icons mx-auto">clear_all</i><span class="text-center">Clear</span>
+        </button>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+  </form>
+</div>
