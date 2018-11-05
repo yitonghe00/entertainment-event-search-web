@@ -1,14 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { debounceTime } from "rxjs/operators";
 
-import { LocationService } from "./location.service";
-import { AutocompleteService } from "./autocomplete.service";
-import { SearchService } from "./search.service";
+import { HttpService } from "../shared/http.service";
 
 @Component({
   selector: "search-form",
   templateUrl: "./search-form.component.html",
-  providers: [AutocompleteService, LocationService]
+  providers: [HttpService]
 })
 export class SearchFormComponent implements OnInit {
   keyword: FormControl;
@@ -23,11 +22,7 @@ export class SearchFormComponent implements OnInit {
   lng: number;
   gotLocation: boolean = false;
 
-  constructor(
-    private autocompleteService: AutocompleteService,
-    private locationService: LocationService,
-    private searchService: SearchService
-  ) {}
+  constructor(private httpService: HttpService) {}
 
   initForm() {
     this.keyword = new FormControl("", [
@@ -53,9 +48,10 @@ export class SearchFormComponent implements OnInit {
 
     this.searchResult = [];
 
-    this.keyword.valueChanges.subscribe(val => {
+    this.keyword.valueChanges.pipe(debounceTime(500)).subscribe(val => {
       if (val != "") {
-        this.autocompleteService.searchKeyword(val).subscribe(data => {
+        var path = "/api/autocomplete?keyword=" + val;
+        this.httpService.getFromServer(path).subscribe(data => {
           const dataJSON = data.json();
           if (
             dataJSON &&
@@ -72,7 +68,7 @@ export class SearchFormComponent implements OnInit {
   ngOnInit() {
     this.initForm();
 
-    this.locationService.getLocation().subscribe(data => {
+    this.httpService.apiCall("http://ip-api.com/json").subscribe(data => {
       const dataJSON = data.json();
       this.lat = dataJSON.lat;
       this.lng = dataJSON.lon;
@@ -81,18 +77,21 @@ export class SearchFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.searchService
-      .search(
-        this.keyword.value,
-        this.catagory.value,
-        this.distance.value,
-        this.unit.value,
-        this.lat,
-        this.lng
-      )
-      .subscribe(data => {
-        console.log(data.json());
-      });
+    var path =
+      "/api/search?keyword=" +
+      this.keyword.value +
+      "&catagory=" +
+      this.catagory.value +
+      "&distance=" +
+      this.distance.value +
+      "&unit=" +
+      this.unit.value;
+    if (this.from.value === "current") {
+      path += "&lat=" + this.lat + "&lng=" + this.lng;
+    }
+    this.httpService.getFromServer(path).subscribe(data => {
+      console.log(data.json());
+    });
   }
 
   onClear() {

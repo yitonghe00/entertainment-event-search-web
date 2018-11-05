@@ -15,7 +15,6 @@ export class NavBarComponent implements OnInit {
   ngOnInit() {}
 
   onSelect(page: string, event) {
-    event.stopPropagation();
     this.pageLoaded = page;
     this.pageSeleted.emit(page);
   }

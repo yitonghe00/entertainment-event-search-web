@@ -1,19 +1,27 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import { map } from "rxjs/operators";
-import { debounceTime } from "rxjs/operators";
 
 import { environment } from "../../environments/environment";
 
-@Injectable()
-export class AutocompleteService {
+@Injectable({
+  providedIn: "root"
+})
+export class HttpService {
   url = environment.apiUrl;
 
   constructor(private http: Http) {}
 
-  searchKeyword(term: string) {
-    return this.http.get(this.url + "/api/autocomplete?keyword=" + term).pipe(
-      debounceTime(1000),
+  getFromServer(path: string) {
+    return this.http.get(this.url + path).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  apiCall(url: string) {
+    return this.http.get(url).pipe(
       map(data => {
         return data;
       })
