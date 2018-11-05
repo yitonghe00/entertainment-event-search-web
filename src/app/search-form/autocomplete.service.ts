@@ -11,7 +11,7 @@ export class AutocompleteService {
 
   constructor(private http: Http) {}
 
-  searchKeyword(term) {
+  searchKeyword(term: string) {
     return this.http.get(this.url + "/api/autocomplete?keyword=" + term).pipe(
       debounceTime(1000),
       map(data => {

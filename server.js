@@ -1,5 +1,6 @@
 const express = require("express");
 const https = require("https");
+const geohash = require("ngeohash");
 
 const app = express();
 
@@ -38,17 +39,62 @@ app.get("/api/autocomplete", (req, res) => {
     resp => {
       let data = "";
 
-      // A chunk of data has been recieved.
       resp.on("data", chunk => {
         data += chunk;
       });
 
-      // The whole response has been received. Print out the result.
       resp.on("end", () => {
         res.send(JSON.parse(data));
       });
     }
   );
+});
+
+// @route GET /api/search
+// @desc  Search events from Ticketmaster
+app.get("/api/search", (req, res) => {
+  var url =
+    "https://app.ticketmaster.com/discovery/v2/events.json?apikey=JpHrwvk3aAh8HnBJJwIBoMa22LlswFXB&keyword=" +
+    req.query.keyword +
+    "&segmentId=";
+
+  switch (req.query.catagory) {
+    case "all":
+      break;
+    case "music":
+      url += "KZFzniwnSyZfZ7v7nJ";
+      break;
+    case "sports":
+      url += "KZFzniwnSyZfZ7v7nE";
+      break;
+    case "arts":
+      url += "KZFzniwnSyZfZ7v7na";
+      break;
+    case "film":
+      url += "KZFzniwnSyZfZ7v7nn";
+      break;
+    case "miscellaneous":
+      url += "KZFzniwnSyZfZ7v7n1";
+      break;
+  }
+
+  url += "&raduis=" + req.query.distance;
+
+  url += "&unit=" + req.query.unit;
+
+  url += "&geoPoint=" + geohash.encode(req.query.lat, req.query.lng);
+
+  https.get(url, resp => {
+    let data = "";
+
+    resp.on("data", chunk => {
+      data += chunk;
+    });
+
+    resp.on("end", () => {
+      res.send(JSON.parse(data));
+    });
+  });
 });
 
 const port = process.env.PORT || 3000;

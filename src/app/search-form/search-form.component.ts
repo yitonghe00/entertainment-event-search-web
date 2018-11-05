@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { LocationService } from "./location.service";
 import { AutocompleteService } from "./autocomplete.service";
+import { SearchService } from "./search.service";
 
 @Component({
   selector: "search-form",
@@ -24,10 +25,11 @@ export class SearchFormComponent implements OnInit {
 
   constructor(
     private autocompleteService: AutocompleteService,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private searchService: SearchService
   ) {}
 
-  ngOnInit() {
+  initForm() {
     this.keyword = new FormControl("", [
       Validators.required,
       this.noWhitespaceValidator
@@ -49,6 +51,8 @@ export class SearchFormComponent implements OnInit {
       location: this.location
     });
 
+    this.searchResult = [];
+
     this.keyword.valueChanges.subscribe(val => {
       if (val != "") {
         this.autocompleteService.searchKeyword(val).subscribe(data => {
@@ -63,6 +67,10 @@ export class SearchFormComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnInit() {
+    this.initForm();
 
     this.locationService.getLocation().subscribe(data => {
       const dataJSON = data.json();
@@ -73,7 +81,37 @@ export class SearchFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("submit!");
+    this.searchService
+      .search(
+        this.keyword.value,
+        this.catagory.value,
+        this.distance.value,
+        this.unit.value,
+        this.lat,
+        this.lng
+      )
+      .subscribe(data => {
+        console.log(data.json());
+      });
+  }
+
+  onClear() {
+    this.ngOnInit();
+  }
+
+  onClearLocation() {
+    this.location = new FormControl("", [
+      Validators.required,
+      this.noWhitespaceValidator
+    ]);
+    this.searchForm = new FormGroup({
+      keyword: this.keyword,
+      catagory: this.catagory,
+      distance: this.distance,
+      unit: this.unit,
+      from: this.from,
+      location: this.location
+    });
   }
 
   noWhitespaceValidator(control: FormControl) {

@@ -61,7 +61,7 @@
         <div class="col-sm-6 text-left">
 
           <div class="form-check">
-            <input class="form-check-input" type="radio" [formControl]="from" id="current" value="current">
+            <input class="form-check-input" type="radio" [formControl]="from" id="current" value="current" (click)="onClearLocation()">
             <label class="form-check-label" for="current">
               Current location
             </label>
@@ -92,7 +92,7 @@
         <button type="submit" class="btn btn-primary mr-2 btn-sm" [disabled]="!gotLocation || !keyword.valid || (from.value === 'other' && !location.valid)">
           <i class="material-icons mx-auto">search</i><span class="text-center">Search</span>
         </button>
-        <button type="button" id="clear-button" class="btn btn-light btn-sm">
+        <button type="button" id="clear-button" class="btn btn-light btn-sm" (click)="onClear()">
           <i class="material-icons mx-auto">clear_all</i><span class="text-center">Clear</span>
         </button>
       </div>
