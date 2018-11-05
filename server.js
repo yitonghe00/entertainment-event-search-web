@@ -78,11 +78,13 @@ app.get("/api/search", (req, res) => {
       break;
   }
 
-  url += "&raduis=" + req.query.distance;
+  url += "&radius=" + req.query.distance;
 
   url += "&unit=" + req.query.unit;
 
   url += "&geoPoint=" + geohash.encode(req.query.lat, req.query.lng);
+
+  url += "&sort=date,asc";
 
   https.get(url, resp => {
     let data = "";

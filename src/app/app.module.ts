@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { MatAutocompleteModule } from "@angular/material";
+import { MatAutocompleteModule, MatTooltipModule } from "@angular/material";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpModule } from "@angular/http";
 
@@ -19,7 +19,8 @@ import { VenueDetailComponent } from "./shared/details/venue-detail/venue-detail
 import { UpcomingDetailComponent } from "./shared/details/upcoming-detail/upcoming-detail.component";
 import { ClickStopPropagationDirective } from "./shared/click-stop-propagation.directive";
 import { ReactiveFormsModule } from "@angular/forms";
-import { DisableControlDirective } from './search-form/disable-control.directive';
+import { DisableControlDirective } from "./search-form/disable-control.directive";
+import { ResultsService } from "./shared/results.service";
 
 @NgModule({
   declarations: [
@@ -42,11 +43,12 @@ import { DisableControlDirective } from './search-form/disable-control.directive
   imports: [
     BrowserModule,
     MatAutocompleteModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [ResultsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

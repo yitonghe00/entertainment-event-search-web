@@ -29,3 +29,17 @@
 .invalid-feedback {
   display: inherit;
 }
+
+table button .material-icons {
+  font-size: 20px;
+}
+
+td .star-button {
+  background-color: white;
+  color: black;
+}
+
+td .star-button:hover {
+  background-color: rgb(236, 236, 236);
+  color: black;
+}

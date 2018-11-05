@@ -1,0 +1,28 @@
+table {
+  width: 100%;
+  min-width: 1000px;
+}
+
+table #index {
+  width: 5%;
+}
+
+table #date {
+  width: 13%;
+}
+
+table #event {
+  width: 35%;
+}
+
+table #catagory {
+  width: 17%;
+}
+
+table #venue {
+  width: 20%;
+}
+
+table #star {
+  width: 10%;
+}

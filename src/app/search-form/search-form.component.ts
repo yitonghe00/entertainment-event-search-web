@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { debounceTime } from "rxjs/operators";
 
 import { HttpService } from "../shared/http.service";
+import { ResultsService } from "../shared/results.service";
 
 @Component({
   selector: "search-form",
@@ -22,7 +23,10 @@ export class SearchFormComponent implements OnInit {
   lng: number;
   gotLocation: boolean = false;
 
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private resultsService: ResultsService
+  ) {}
 
   initForm() {
     this.keyword = new FormControl("", [
@@ -77,25 +81,52 @@ export class SearchFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.resultsService.state.state = "loading";
+    var distanceValue = 10;
+    if (this.distance.value) {
+      distanceValue = this.distance.value;
+    }
+
     var path =
       "/api/search?keyword=" +
       this.keyword.value +
       "&catagory=" +
       this.catagory.value +
       "&distance=" +
-      this.distance.value +
+      distanceValue +
       "&unit=" +
       this.unit.value;
     if (this.from.value === "current") {
       path += "&lat=" + this.lat + "&lng=" + this.lng;
+      this.httpService.getFromServer(path).subscribe(data => {
+        this.resultsService.setResults(data.json());
+      });
+    } else {
+      var apiUrl =
+        "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+        this.location.value +
+        "&key=AIzaSyDb7GELau72-aTrK6OF6auplZxv5xQzFoA";
+      this.httpService.apiCall(apiUrl).subscribe(data => {
+        var dataJSON = data.json()["results"][0];
+        if (dataJSON) {
+          path +=
+            "&lat=" +
+            dataJSON["geometry"]["location"].lat +
+            "&lng=" +
+            dataJSON["geometry"]["location"].lng;
+          this.httpService.getFromServer(path).subscribe(data => {
+            this.resultsService.setResults(data.json());
+          });
+        } else {
+          this.resultsService.setErrorState();
+        }
+      });
     }
-    this.httpService.getFromServer(path).subscribe(data => {
-      console.log(data.json());
-    });
   }
 
   onClear() {
     this.ngOnInit();
+    this.resultsService.clearResults();
   }
 
   onClearLocation() {
