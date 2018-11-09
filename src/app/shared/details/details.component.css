@@ -1,0 +1,9 @@
+#twitter-button {
+  width: 38px;
+}
+
+.disabled-link {
+  pointer-events: none !important;
+  cursor: default;
+  filter: grayscale(20%);
+}

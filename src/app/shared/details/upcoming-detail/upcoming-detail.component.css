@@ -1,0 +1,15 @@
+.artist-text {
+  color: rgb(206, 58, 0);
+}
+
+.date-text {
+  color: rgb(78, 78, 78);
+}
+
+.name-text {
+  font-weight: bold;
+}
+
+div {
+  font-size: 14px;
+}

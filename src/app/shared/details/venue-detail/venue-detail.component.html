@@ -1,3 +1,40 @@
-<p>
-  venue-detail works!
-</p>
+<h4 class="text-center">{{ openedEvent.venue.name }}</h4>
+
+<table class="table table-striped">
+  <tbody>
+    <tr *ngIf="openedEvent.venue.address !== ''">
+      <th scope="row" style="min-width: 150px">Address</th>
+      <td>{{ openedEvent.venue.address }}</td>
+    </tr>
+
+    <tr *ngIf="openedEvent.venue.city !== ''">
+      <th scope="row" style="min-width: 150px">City</th>
+      <td>{{ openedEvent.venue.city }}</td>
+    </tr>
+
+    <tr *ngIf="openedEvent.venue.phoneNumber !== ''">
+      <th scope="row" style="min-width: 150px">Phone Number</th>
+      <td>{{ openedEvent.venue.phoneNumber }}</td>
+    </tr>
+
+    <tr *ngIf="openedEvent.venue.openHours !== ''">
+      <th scope="row" style="min-width: 150px">Open Hours</th>
+      <td>{{ openedEvent.venue.openHours }}</td>
+    </tr>
+
+    <tr *ngIf="openedEvent.venue.generalRule !== ''">
+      <th scope="row" style="min-width: 150px">General Rule</th>
+      <td>{{ openedEvent.venue.generalRule }}</td>
+    </tr>
+
+    <tr *ngIf="openedEvent.venue.childRule !== ''">
+      <th scope="row" style="min-width: 150px">Child Rule</th>
+      <td>{{ openedEvent.venue.childRule }}</td>
+    </tr>
+
+  </tbody>
+</table>
+
+<agm-map [latitude]="openedEvent.venue.lat" [longitude]="openedEvent.venue.lng" [zoom]="zoom">
+  <agm-marker [latitude]="openedEvent.venue.lat" [longitude]="openedEvent.venue.lng"></agm-marker>
+</agm-map>

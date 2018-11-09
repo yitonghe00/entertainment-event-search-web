@@ -1,3 +1,87 @@
-<p>
-  details works!
-</p>
+<ng-container *ngIf="state.state !== 'error'">
+
+  <!-- Heading -->
+  <h4 class="h4 text-center">{{ openedEvent.event.name }}</h4>
+
+  <!-- Buttons -->
+  <div>
+    <button type="button" class="btn btn-outline-secondary float-left mb-2 switch-button" (click)="onSwitchToList()"><i
+        class="material-icons">keyboard_arrow_left</i>
+      List</button>
+
+    <div class="float-right mb-2">
+      <a [ngClass]="{'disabled-link': !detailDone || !venueDone}" href="{{ twitterUrl }}"><img class="mr-2" id="twitter-button"
+          src="http://csci571.com/hw/hw8/Images/Twitter.png"></a>
+
+      <button [disabled]="!detailDone || !venueDone" *ngIf="!isFav" type="button" class="btn btn-outline-secondary star-button"
+        (click)="onAddFav()"><i class="material-icons">star_border</i></button>
+      <button [disabled]="!detailDone || !venueDone" *ngIf="isFav" type="button" class="btn btn-outline-secondary full-button"
+        (click)="onRemoveFav()"><i class="material-icons">star</i>
+      </button>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+
+  <!-- Tabs -->
+  <div class="d-none d-sm-block">
+    <ul class="nav nav-tabs justify-content-end">
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{active: tab.tab === 'event'}" (click)="onSelect('event')" href="#"
+          click-stop-propagation>Event</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{active: tab.tab === 'artist'}" (click)="onSelect('artist')" href="#"
+          click-stop-propagation>Artist/Teams</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{active: tab.tab === 'venue'}" (click)="onSelect('venue')" href="#"
+          click-stop-propagation>Venue</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{active: tab.tab === 'upcoming'}" (click)="onSelect('upcoming')" href="#"
+          click-stop-propagation>Upcoming Events</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="d-sm-none">
+    <ul class="nav nav-tabs justify-content-end">
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{active: tab.tab === 'event'}" (click)="onSelect('event')" href="#"
+          click-stop-propagation>Event</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{active: tab.tab === 'artist'}" (click)="onSelect('artist')" href="#"
+          click-stop-propagation>Artist</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{active: tab.tab === 'venue'}" (click)="onSelect('venue')" href="#"
+          click-stop-propagation>Venue</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{active: tab.tab === 'upcoming'}" (click)="onSelect('upcoming')" href="#"
+          click-stop-propagation>Upcoming</a>
+      </li>
+    </ul>
+  </div>
+
+  <app-event-detail *ngIf="tab.tab === 'event' && detailDone" [favList]="favList"></app-event-detail>
+  <app-artist-detail *ngIf="tab.tab === 'artist' && artistDone" [favList]="favList"></app-artist-detail>
+  <app-venue-detail *ngIf="tab.tab === 'venue' && venueDone" [favList]="favList"></app-venue-detail>
+  <app-upcoming-detail *ngIf="tab.tab === 'upcoming' && upcomingDone" [favList]="favList"></app-upcoming-detail>
+
+  <div *ngIf="(tab.tab === 'event' && !detailDone) || (tab.tab === 'artist' && !artistDone) || (tab.tab === 'venue' && !venueDone) || (tab.tab === 'upcoming' && !upcomingDone) "
+    class="progress mt-5">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50"
+      aria-valuemin="0" aria-valuemax="100" style="width: 50%"></div>
+  </div>
+
+</ng-container>
+
+<ng-container *ngIf="state.state === 'error'">
+  <div class="alert alert-danger" role="alert">
+    Failed to get search results.
+  </div>
+</ng-container>

@@ -1,3 +1,29 @@
-<p>
-  favorites-list works!
-</p>
+<br>
+<div *ngIf="results.length > 0">
+  <button class="btn btn-outline-secondary float-right mb-2 switch-button" (click)="onSwitchToDetails()" [disabled]="!openedEvent.event || !openedEvent.event.id">Details
+    <i class="material-icons">keyboard_arrow_right</i></button>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col" id="index">#</th>
+          <th scope="col" id="date">Date</th>
+          <th scope="col" id="event">Event</th>
+          <th scope="col" id="catagory">Catagory</th>
+          <th scope="col" id="venue">Venue Info</th>
+          <th scope="col" id="star">Favorite</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let res of results; index as i" app-list-item [ngClass]="{'table-warning': openedEvent.event && res.id === openedEvent.event.id}"
+          [result]="res" [index]="i" (openEvent)="onSwitchToDetails()" [favList]="true">
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="results.length === 0" class="alert alert-warning" role="alert">
+  No records.
+</div>

@@ -1,3 +1,48 @@
-<p>
-  upcoming-detail works!
-</p>
+<br>
+<!-- Select -->
+<div *ngIf="openedEvent.upcoming.length > 0">
+  <div class="form-inline">
+    <select class="form-control col-md-2" #keyOption (change)="onChangeKeyOption()">
+      <option value="default" [selected]="selectOption.keyOption === 'default'">Default</option>
+      <option value="name" [selected]="selectOption.keyOption === 'name'">Event Name</option>
+      <option value="eventTime" [selected]="selectOption.keyOption === 'eventTime'">Time</option>
+      <option value="artist" [selected]="selectOption.keyOption === 'artist'">Artist</option>
+      <option value="type" [selected]="selectOption.keyOption === 'type'">Type</option>
+    </select>
+    <select class="form-control col-md-2" #sortOption [disabled]="selectOption.keyOption === 'default'" (change)="onChangeSortOption()">
+      <option value="ascending" [selected]="selectOption.sortOption === 'ascending'">Ascending</option>
+      <option value="descending" [selected]="selectOption.sortOption === 'descending'">Descending</option>
+    </select>
+  </div>
+
+  <!-- List -->
+  <div *ngFor="let event of top5Events" class="card my-2">
+    <div class="card-body">
+      <a href="{{ event.uri }}" class="name-text" target="_blank">{{ event.name }}</a><br>
+      <span class="artist-text">Artist: {{ event.artist }} </span><span class="date-text">{{ event.dateTime }}</span><br>
+      <span>Type: {{ event.type }}</span><br>
+    </div>
+  </div>
+
+  <div [@listAnimation]="afterEvents.length">
+    <div *ngFor="let event of afterEvents" class="card my-2">
+      <div class="card-body event-item">
+        <a href="{{ event.uri }}" class="name-text" target="_blank">{{ event.name }}</a><br>
+        <span class="artist-text">Artist: {{ event.artist }} </span><span class="date-text">{{ event.dateTime }}</span><br>
+        <span>Type: {{ event.type }}</span><br>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button -->
+  <div class="text-center mb-5">
+    <br>
+    <br>
+    <button class="btn btn-primary" *ngIf="lessItem" (click)="toggle()">Show More</button>
+    <button class="btn btn-primary" *ngIf="!lessItem" (click)="toggle()">Show Less</button>
+  </div>
+</div>
+
+<div *ngIf="openedEvent.upcoming.length === 0" class="alert alert-warning my-5" role="alert">
+  No records.
+</div>

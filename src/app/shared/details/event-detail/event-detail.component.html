@@ -1,3 +1,61 @@
-<p>
-  event-detail works!
-</p>
+<br>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <tbody>
+      <tr *ngIf="artists !== ''">
+        <th scope="row">Artist/Team(s)</th>
+        <td>{{ artists }}</td>
+      </tr>
+      <tr *ngIf="venue !== ''">
+        <th scope="row">Venue</th>
+        <td>{{ venue }}</td>
+      </tr>
+      <tr *ngIf="time !== ''">
+        <th scope="row">Time</th>
+        <td>{{ time }}</td>
+      </tr>
+      <tr *ngIf="catagory !== ''">
+        <th scope="row">Catagory</th>
+        <td>{{ catagory }}</td>
+      </tr>
+      <tr *ngIf="priceRanges !== ''">
+        <th scope="row">Price Ranges</th>
+        <td>{{ priceRanges }}</td>
+      </tr>
+      <tr *ngIf="ticketStatus !== ''">
+        <th scope="row">Ticket Status</th>
+        <td>{{ ticketStatus | titlecase }}</td>
+      </tr>
+      <tr *ngIf="url !== ''">
+        <th scope="row">Buy Ticket At</th>
+        <td><a href="{{ url }}" target="_blank">Ticketmaster</a></td>
+      </tr>
+      <tr *ngIf="seatMap !== ''">
+        <th scope="row">Seat Map</th>
+        <td><a href="" data-toggle="modal" data-target="#seatMapModal">View Seat Map
+            Here</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="seatMapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" style="z-index: 1100;" data-backdrop="false">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">View Seat Map</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <a href="{{ seatMap }}" target="_blank"><img src="{{ seatMap }}" style="width: 100%"></a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,7 @@
-<app-favorites-list></app-favorites-list>
+<div [@listDiv]="resultsState.list">
+  <app-favorites-list *ngIf="display.display === 'list'" (switchToDetails)="onSwitchToDetails()">
+  </app-favorites-list>
+</div>
+<div [@detailsDiv]="resultsState.details">
+  <app-details *ngIf="display.display === 'details'" (switchToList)="onSwitchToList()" [favList]="true"></app-details>
+</div>

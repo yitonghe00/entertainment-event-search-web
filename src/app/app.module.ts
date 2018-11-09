@@ -3,6 +3,8 @@ import { NgModule } from "@angular/core";
 import { MatAutocompleteModule, MatTooltipModule } from "@angular/material";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpModule } from "@angular/http";
+import { RoundProgressModule } from "angular-svg-round-progressbar";
+import { AgmCoreModule } from "@agm/core";
 
 import { AppComponent } from "./app.component";
 import { SearchFormComponent } from "./search-form/search-form.component";
@@ -21,6 +23,8 @@ import { ClickStopPropagationDirective } from "./shared/click-stop-propagation.d
 import { ReactiveFormsModule } from "@angular/forms";
 import { DisableControlDirective } from "./search-form/disable-control.directive";
 import { ResultsService } from "./shared/results.service";
+import { ArraySortPipe } from "./shared/details/upcoming-detail/array-sort.pipe";
+import { FavoritesService } from "./shared/favorites.service";
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { ResultsService } from "./shared/results.service";
     VenueDetailComponent,
     UpcomingDetailComponent,
     ClickStopPropagationDirective,
-    DisableControlDirective
+    DisableControlDirective,
+    ArraySortPipe
   ],
   imports: [
     BrowserModule,
@@ -46,9 +51,13 @@ import { ResultsService } from "./shared/results.service";
     MatTooltipModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    HttpModule
+    HttpModule,
+    RoundProgressModule,
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyDb7GELau72-aTrK6OF6auplZxv5xQzFoA"
+    })
   ],
-  providers: [ResultsService],
+  providers: [ResultsService, FavoritesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

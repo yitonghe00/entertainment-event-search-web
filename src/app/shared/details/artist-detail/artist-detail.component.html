@@ -1,3 +1,61 @@
-<p>
-  artist-detail works!
-</p>
+<ng-container *ngIf="openedEvent.artist.length > 0">
+  <div *ngFor="let artist of openedEvent.artist; let i = index">
+    <h4 class="text-center">{{ artist.name }}</h4>
+    <div *ngIf="artist.spotify" class="table-responsive">
+      <table class=" table table-striped ">
+        <tbody>
+          <tr *ngIf="artist.spotify.name !== ''">
+            <th scope="row">Name</th>
+            <td>{{ artist.spotify.name }}</td>
+          </tr>
+          <tr *ngIf="artist.spotify.followers !== ''">
+            <th scope="row">Followers</th>
+            <td>{{ artist.spotify.followers }}</td>
+          </tr>
+          <tr *ngIf="artist.spotify.popularity !== ''">
+            <th scope="row">Popularity</th>
+            <td>
+              <div class="popularity-div">
+                <round-progress [current]="artist.spotify.popularity" [max]="100" [clockwise]="false" [responsive]="true"
+                  [duration]="1">
+                </round-progress>
+                <span class="popularity">{{ artist.spotify.popularity }}</span>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="artist.spotify.url !== ''">
+            <th scope="row">Check At</th>
+            <td><a href="{{ artist.spotify.url }}" target="_blank">Spotify</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="row">
+      <div class="col-md-4" style="display: inline">
+        <ng-container *ngFor="let image of artist.images; let i = index">
+          <a href="{{ image }}" target="_blank"><img *ngIf="i % 3 === 0" src="{{ image }}" class="img-thumbnail img-fluid px-1"
+              style="width: 100%"></a>
+        </ng-container>
+      </div>
+      <div class="col-md-4" style="display: inline">
+        <ng-container *ngFor="let image of artist.images; let i = index">
+          <a href="{{ image }}" target="_blank"><img *ngIf="i % 3 === 1" src="{{ image }}" class="img-thumbnail img-fluid px-1"
+              style="width: 100%"></a>
+        </ng-container>
+      </div>
+      <div class="col-md-4" style="display: inline">
+        <ng-container *ngFor="let image of artist.images; let i = index">
+          <a href="{{ image }}" target="_blank"><img *ngIf="i % 3 === 2" src="{{ image }}" class="img-thumbnail img-fluid px-1"
+              style="width: 100%"></a>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="openedEvent.artist.length === 0">
+  <div class="alert alert-warning my-5" role="alert">
+    No records.
+  </div>
+</ng-container>

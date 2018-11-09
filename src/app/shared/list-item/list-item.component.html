@@ -1,7 +1,20 @@
 <th scope="row">{{ index + 1 }}</th>
 <td>{{ date }}</td>
-<td><button class="link-button btn btn-link" mat-raised-button [matTooltip]="fullName" matTooltipPosition="below">{{
-    shortName }}</button></td>
+<td>
+  <ng-container *ngIf="fullName !== ''">
+    <button class="link-button btn btn-link" mat-raised-button [matTooltip]="fullName" matTooltipPosition="below"
+      (click)="onClickEvent()">{{
+      shortName }}</button>
+  </ng-container>
+  <ng-container *ngIf="fullName === ''">
+    <button class="link-button btn btn-link" (click)="onClickEvent()">{{
+      shortName }}</button>
+  </ng-container>
+</td>
 <td>{{ catagory }}</td>
 <td>{{ venue }}</td>
-<td><button class="btn btn-outline-secondary star-button"><i class="material-icons">star_border</i></button></td>
+<td>
+  <button *ngIf="!favList && !isFav" class="btn btn-outline-secondary star-button" (click)="onAddFav()"><i class="material-icons">star_border</i></button>
+  <button *ngIf="!favList && isFav" class="btn btn-outline-secondary full-button" (click)="onRemoveFav()"><i class="material-icons">star</i></button>
+  <button *ngIf="favList" class="btn btn-outline-secondary delete-button" (click)="onRemoveFav()"><i class="material-icons">delete</i></button>
+</td>

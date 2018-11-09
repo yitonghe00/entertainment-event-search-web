@@ -1,10 +1,11 @@
 <ul class="nav nav-pills justify-content-center">
   <li class="nav-item">
-    <a class="nav-link" href="#" (click)="onSelect('results', $event)" [ngClass]="{active: pageLoaded === 'results'}"
+    <a class="nav-link" href="#" (click)="onSelect('results')" [ngClass]="{active: loadedPage === 'results'}"
       click-stop-propagation>Results</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" (click)="onSelect('favorites', $event)" [ngClass]="{active: pageLoaded === 'favorites'}"
+    <a class="nav-link" href="#" (click)="onSelect('favorites')" [ngClass]="{active: loadedPage === 'favorites'}"
       click-stop-propagation>Favorites</a>
   </li>
 </ul>
+<br>

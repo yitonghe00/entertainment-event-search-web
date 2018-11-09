@@ -4,7 +4,7 @@
 
     <div class="form-group row">
       <div class="col-sm-2"></div>
-      <label for="keyword" class="col-sm-2 col-form-label text-left">Keyword</label>
+      <label for="keyword" class="col-sm-2 col-form-label text-left">Keyword <span class="red-star">*</span></label>
       <div class="col-sm-6">
 
         <input matInput [formControl]="keyword" [matAutocomplete]="auto" type="text" class="form-control" [ngClass]="{'is-invalid': !keyword.valid && keyword.touched}"
@@ -57,7 +57,7 @@
     <fieldset class="form-group">
       <div class="row">
         <div class="col-sm-2"></div>
-        <legend class="col-form-label col-sm-2 pt-0 text-left">From</legend>
+        <legend class="col-form-label col-sm-2 pt-0 text-left">From <span class="red-star">*</span></legend>
         <div class="col-sm-6 text-left">
 
           <div class="form-check">

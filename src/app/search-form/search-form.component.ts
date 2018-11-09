@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { debounceTime } from "rxjs/operators";
 
@@ -22,6 +22,8 @@ export class SearchFormComponent implements OnInit {
   lat: number;
   lng: number;
   gotLocation: boolean = false;
+  @Output()
+  resetList = new EventEmitter<any>();
 
   constructor(
     private httpService: HttpService,
@@ -81,6 +83,8 @@ export class SearchFormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.resetList.emit();
+    this.resultsService.clearResults();
     this.resultsService.state.state = "loading";
     var distanceValue = 10;
     if (this.distance.value) {
@@ -118,7 +122,7 @@ export class SearchFormComponent implements OnInit {
             this.resultsService.setResults(data.json());
           });
         } else {
-          this.resultsService.setErrorState();
+          this.resultsService.setNoneState();
         }
       });
     }
@@ -126,7 +130,9 @@ export class SearchFormComponent implements OnInit {
 
   onClear() {
     this.ngOnInit();
+    this.resetList.emit();
     this.resultsService.clearResults();
+    this.resultsService.display.display = "list";
   }
 
   onClearLocation() {

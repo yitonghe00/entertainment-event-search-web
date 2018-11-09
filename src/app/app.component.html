@@ -1,12 +1,12 @@
 <div class="container">
 
   <div class="row">
-    <search-form id="search-form" class="col-md-12"></search-form>
+    <search-form id="search-form" class="col-md-12" (resetList)="onResetList()"></search-form>
   </div>
 
   <div class="row">
     <div class="col-md-12">
-      <nav-bar (pageSeleted)="onChangePage($event)"></nav-bar>
+      <nav-bar (pageSeleted)="onChangePage($event)" [loadedPage]="loadedPage"></nav-bar>
     </div>
   </div>
 

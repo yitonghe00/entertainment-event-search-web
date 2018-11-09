@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, OnInit, EventEmitter, Output, Input } from "@angular/core";
 
 @Component({
   selector: "nav-bar",
@@ -8,14 +8,14 @@ import { Component, OnInit, EventEmitter, Output } from "@angular/core";
 export class NavBarComponent implements OnInit {
   @Output()
   pageSeleted = new EventEmitter<string>();
-  pageLoaded = "results";
+  @Input()
+  loadedPage;
 
   constructor() {}
 
   ngOnInit() {}
 
-  onSelect(page: string, event) {
-    this.pageLoaded = page;
+  onSelect(page: string) {
     this.pageSeleted.emit(page);
   }
 }
