@@ -108,25 +108,74 @@ app.get("/api/search", (req, res) => {
 
   url += "&unit=" + req.query.unit;
 
-  url += "&geoPoint=" + geohash.encode(req.query.lat, req.query.lng);
+  if (req.query.lat && req.query.lng) {
+    url += "&geoPoint=" + geohash.encode(req.query.lat, req.query.lng);
+    url += "&sort=date,asc";
+    https
+      .get(url, resp => {
+        let rdata = "";
 
-  url += "&sort=date,asc";
+        resp.on("data", chunk => {
+          rdata += chunk;
+        });
 
-  https
-    .get(url, resp => {
-      let data = "";
-
-      resp.on("data", chunk => {
-        data += chunk;
+        resp.on("end", () => {
+          return res.send(JSON.parse(rdata));
+        });
+      })
+      .on("error", e => {
+        return res.status(500).send(e);
       });
+  } else {
+    https
+      .get(
+        "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+          req.query.location +
+          "&key=AIzaSyDb7GELau72-aTrK6OF6auplZxv5xQzFoA",
+        resp => {
+          let data = "";
 
-      resp.on("end", () => {
-        return res.send(JSON.parse(data));
+          resp.on("data", chunk => {
+            data += chunk;
+          });
+
+          resp.on("end", () => {
+            var dataJSON = JSON.parse(data)["results"][0];
+            if (dataJSON) {
+              url +=
+                "&geoPoint=" +
+                geohash.encode(
+                  dataJSON["geometry"]["location"].lat,
+                  dataJSON["geometry"]["location"].lng
+                );
+
+              url += "&sort=date,asc";
+
+              https
+                .get(url, resp => {
+                  let rdata = "";
+
+                  resp.on("data", chunk => {
+                    rdata += chunk;
+                  });
+
+                  resp.on("end", () => {
+                    return res.send(JSON.parse(rdata));
+                  });
+                })
+                .on("error", e => {
+                  return res.status(500).send(e);
+                });
+            } else {
+              return res.send({});
+            }
+          });
+        }
+      )
+      .on("error", e => {
+        return res.status(500).send(e);
       });
-    })
-    .on("error", e => {
-      return res.status(500).send(e);
-    });
+  }
 });
 
 // @route GET /api/detail

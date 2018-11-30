@@ -102,30 +102,12 @@ export class SearchFormComponent implements OnInit {
       this.unit.value;
     if (this.from.value === "current") {
       path += "&lat=" + this.lat + "&lng=" + this.lng;
-      this.httpService.getFromServer(path).subscribe(data => {
-        this.resultsService.setResults(data.json());
-      });
     } else {
-      var apiUrl =
-        "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-        this.location.value +
-        "&key=AIzaSyDb7GELau72-aTrK6OF6auplZxv5xQzFoA";
-      this.httpService.apiCall(apiUrl).subscribe(data => {
-        var dataJSON = data.json()["results"][0];
-        if (dataJSON) {
-          path +=
-            "&lat=" +
-            dataJSON["geometry"]["location"].lat +
-            "&lng=" +
-            dataJSON["geometry"]["location"].lng;
-          this.httpService.getFromServer(path).subscribe(data => {
-            this.resultsService.setResults(data.json());
-          });
-        } else {
-          this.resultsService.setNoneState();
-        }
-      });
+      path += "&location=" + this.location.value;
     }
+    this.httpService.getFromServer(path).subscribe(data => {
+      this.resultsService.setResults(data.json());
+    });
   }
 
   onClear() {
