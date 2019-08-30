@@ -34,4 +34,6 @@ Create a new web server enviroment on Elastic Beanstalk. Choose the Node.js prec
 
 Run `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory. The `--prod` flag is for a production build.
 
-After the build is done, compress `server.js`, `package.json` and `dist/` folder into an archive named `Archive.zip`. Upload the archive to AWS and deploy it. Change the environment After the status change to "Ok", you can navigate to your domain of choice to view your event search web app.
+### Upload to AWS
+
+After the build is done, compress `server.js`, `package.json` and `dist/` folder into an archive named `Archive.zip`. Upload the archive to AWS and deploy it. Add an environment property `NODE_ENV` with value `production` (Configuration - Software - Environment properties). After the status change to "Ok", you can navigate to your domain of choice to view your event search web app.
