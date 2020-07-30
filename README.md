@@ -4,7 +4,7 @@
 
 The highlight of the application is that it integrates information from different APIs and displays it in a very clear way. So instead of switching between different websites, uses can save their time and get all the information they need in a single webpage.
 
-This project has been deployed on AWS (http://entertainment-event-search.us-west-1.elasticbeanstalk.com/)
+This project has been deployed on AWS (temporarily removed)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.3.
 
@@ -40,7 +40,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 1. Create a new web server enviroment on Elastic Beanstalk. Choose the Node.js preconfigured platform.
 
-2. After you set your domain name (for example, http://entertainment-event-search.us-west-1.elasticbeanstalk.com/), open file `environment.prod.ts`, and change the apiUrl field in the enriroment object to your domain name. Save the project.
+2. After you set your domain name, open file `environment.prod.ts`, and change the apiUrl field in the enriroment object to your domain name. Save the project.
 
 3. Run `ng build --prod` to build the project. The build artifacts will be stored in the `dist/` directory. The `--prod` flag is for a production build.
 
