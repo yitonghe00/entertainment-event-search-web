@@ -13,7 +13,7 @@
   "dependencies": {
     "core-js": "^2.5.4",
     "express": "^4.16.4",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "ngeohash": "^0.6.0",
     "path": "^0.12.7",
     "spotify-web-api-node": "^4.0.0"
